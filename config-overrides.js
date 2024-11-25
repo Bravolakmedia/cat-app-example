@@ -33,6 +33,5 @@ module.exports = function override(config, env) {
     Buffer: ['buffer', 'Buffer']
   }))
 
-  console.log('config', config)
   return config;
 }

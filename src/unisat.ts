@@ -1,6 +1,5 @@
 'use client'
 
-import { PSBTOptions, Signer } from '@cat-protocol/cat-sdk'
 import { useEffect } from 'react'
 import useSWR from 'swr'
 

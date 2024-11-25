@@ -84,7 +84,7 @@ export const getTokenInfo = async function (
         if (!tokenAddrTmp) {
           const minterP2TR = addrToP2trLockingScript(token.minterAddr);
           tokenAddrTmp = p2trLockingScriptToAddr(
-            getTokenContractP2TR(minterP2TR).p2tr,
+            getTokenContractP2TR(minterP2TR),
             network,
           );
         }
