@@ -38,7 +38,7 @@ function App() {
   } = useForm();
 
   const [txid, setTxId] = useState<string | undefined>(undefined);
-  const { address, setAddress, isWalletConnected, setIsWalletConnected } =
+  const { address, setAddress, isWalletConnected, setIsWalletConnected, tokens, setTokens, } =
     useWallet();
 
   function useFetchTokenInfo() {
@@ -203,43 +203,46 @@ function App() {
           />{" "}
         </Box>
 
-        {tokenInfo && balance ? (
-          <>
-            <p>Symbol: {tokenInfo.metadata!.symbol}</p>
-            <p>
-              Balance:{" "}
-              {unScaleByDecimals(
-                balance.confirmed,
-                tokenInfo.metadata!.decimals
-              )}
-            </p>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <FormControl sx={{ width: "25ch" }}>
-                <InputLabel htmlFor="receiver_address">Send to:</InputLabel>
-                <Input
-                  id="receiver_address"
-                  type="text"
-                  {...register("address", { required: true })}
-                  placeholder="receiver address"
-                />
-              </FormControl>
-              <br />
-              <FormControl sx={{ width: "25ch", marginTop: 8 }}>
-                <InputLabel htmlFor="amount">Amount:</InputLabel>
-                <Input
-                  id="amount"
-                  type="text"
-                  {...register("amount", { required: true })}
-                  placeholder="amount in satoshis"
-                />
-              </FormControl>
-              <br />
-              <Button type="submit">send</Button>
-            </form>
-          </>
-        ) : (
-          <CircularProgress />
-        )}
+        {tokens && tokens.length > 0 ? (
+  tokens.map((token, index) => (
+    <Box key={index}> 
+      <p>Symbol: {token.symbol || "Unknown" }</p> 
+      <p>
+      Balance:{" "}
+        {token.balance && token.decimals !== undefined
+          ? unScaleByDecimals(BigInt(token.balance), token.decimals)
+          : "Data unavailable"}
+      </p>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl sx={{ width: "25ch" }}>
+          <InputLabel htmlFor="receiver_address">Send to:</InputLabel>
+          <Input
+            id="receiver_address"
+            type="text"
+            {...register("address", { required: true })}
+            placeholder="receiver address"
+          />
+        </FormControl>
+        <br />
+        <FormControl sx={{ width: "25ch", marginTop: 8 }}>
+          <InputLabel htmlFor="amount">Amount:</InputLabel>
+          <Input
+            id="amount"
+            type="text"
+            {...register("amount", { required: true })}
+            placeholder="amount in satoshis"
+          />
+        </FormControl>
+        <br />
+        <Button type="submit">Send</Button>
+      </form>
+    </Box>
+  ))
+) : (
+
+  <CircularProgress />
+)}
+
       </Box>
 
       {txid && tokenInfo ? (
