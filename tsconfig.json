@@ -17,9 +17,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["hardhat", "@nomiclabs/hardhat-ethers"]
   },
   "include": [
-    "src"
+    "src", "hardhat.config.ts", "scripts", "test", "contracts", "typechain-types"
   ]
 }
